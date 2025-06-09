@@ -1,15 +1,17 @@
-import { Text, View } from "react-native";
+import { Redirect } from 'expo-router';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function Index() {
-  return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
-    </View>
-  );
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return null; // Loading state
+  }
+
+  // Redirect based on auth state
+  if (user) {
+    return <Redirect href="/(tabs)" />;
+  } else {
+    return <Redirect href="/(auth)/login" />;
+  }
 }
